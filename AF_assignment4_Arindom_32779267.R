@@ -4,11 +4,11 @@ generate_arma <- function(n = 100, c = 0, phi = NULL, theta = NULL, sigma = 1) {
   error <- rnorm(n, mean = 0, sd = sigma)
   # Set up vector for the response with initial values set to 0
   
-  if (length(phi) == 0 || is.na(phi) || is.null(phi)) {
+  if (any(length(phi) == 0) | any(is.na(phi)) | any(is.null(phi))) {
     phi = 0
   } 
   
-  if (length(theta) == 0 || is.na(theta) || is.null(theta)) {
+  if (any(length(theta) == 0) | any(is.na(theta)) | any(is.null(theta))) {
     theta = 0
   }
   
@@ -53,7 +53,7 @@ generate_arma <- function(n = 100, c = 0, phi = NULL, theta = NULL, sigma = 1) {
   for (i in seq(k + 1, length = n - k)) {
     y[i] <- eval(parse(text = paste(phi_expression, "+", theta_expression, "+ error[i] + c", sep = "")))
   }
-  return(y[y>0])
+  return(y[y!=0])
 }
 
 
